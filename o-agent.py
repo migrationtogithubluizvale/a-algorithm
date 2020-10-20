@@ -1,10 +1,4 @@
 class OnlineDFSAgent:
-    """
-    The abstract class for an OnlineDFSAgent. Override
-    update_state method to convert percept to state. While initializing
-    the subclass a problem needs to be provided which is an instance of
-    a subclass of the Problem class.
-    """
 
     def __init__(self, problem):
         self.problem = problem
