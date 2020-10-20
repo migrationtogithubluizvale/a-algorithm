@@ -34,14 +34,6 @@ class Problem:
 
 
 class Node:
-    """A node in a search tree. Contains a pointer to the parent (the node
-    that this is a successor of) and to the actual state for this node. Note
-    that if a state is arrived at by two paths, then there are two nodes with
-    the same state. Also includes the action that got us to this state, and
-    the total path_cost (also known as g) to reach the node. Other functions
-    may add an f and h value; see best_first_graph_search and astar_search for
-    an explanation of how the f and h values are handled. You will not need to
-    subclass this class."""
 
     def __init__(self, state, parent=None, action=None, path_cost=0):
         """Create a search tree Node, derived from a parent by an action."""
@@ -94,9 +86,6 @@ class Node:
 class SimpleProblemSolvingAgentProgram:
 
     def __init__(self, initial_state=None):
-        """State is an abstract representation of the state
-        of the world, and seq is the list of actions required
-        to get to a particular state from the initial state(root)."""
         self.state = initial_state
         self.seq = []
 
@@ -179,13 +168,6 @@ def breadth_first_graph_search(problem):
 
 
 def best_first_graph_search(problem, f, display=False):
-    """Search the nodes with the lowest f scores first.
-    You specify the function f(node) that you want to minimize; for example,
-    if f is a heuristic estimate to the goal, then we have greedy best
-    first search; if f is node.depth then we have breadth-first search.
-    There is a subtlety: the line "f = memoize(f, 'f')" means that the f
-    values will be cached on the nodes as they are computed. So after doing
-    a best first search you can examine the f values of the path returned."""
     f = memoize(f, 'f')
     node = Node(problem.initial)
     frontier = PriorityQueue('min', f)
@@ -320,9 +302,6 @@ greedy_best_first_graph_search = best_first_graph_search
 
 
 def astar_search(problem, h=None, display=False):
-    """A* search is best-first graph search with f(n) = g(n)+h(n).
-    You need to specify the h function when you call astar_search, or
-    else in your Problem subclass."""
     h = memoize(h or problem.h, 'h')
     return best_first_graph_search(problem, lambda n: n.path_cost + h(n), display)
 
@@ -331,9 +310,6 @@ def astar_search(problem, h=None, display=False):
 # A* heuristics 
 
 class EightPuzzle(Problem):
-    """ The problem of sliding tiles numbered from 1 to 8 on a 3x3 board, where one of the
-    squares is a blank. A state is represented as a tuple of length 9, where  element at
-    index i represents the tile number  at index i (0 if it's an empty square) """
 
     def __init__(self, initial, goal=(1, 2, 3, 4, 5, 6, 7, 8, 0)):
         """ Define goal state and initialize a problem """
@@ -345,9 +321,6 @@ class EightPuzzle(Problem):
         return state.index(0)
 
     def actions(self, state):
-        """ Return the actions that can be executed in the given state.
-        The result would be a list, since there are only four possible actions
-        in any given state of the environment """
 
         possible_actions = ['UP', 'DOWN', 'LEFT', 'RIGHT']
         index_blank_square = self.find_blank_square(state)
@@ -407,9 +380,6 @@ class PlanRoute(Problem):
         self.allowed = allowed
 
     def actions(self, state):
-        """ Return the actions that can be executed in the given state.
-        The result would be a list, since there are only three possible actions
-        in any given state of the environment """
 
         possible_actions = ['Forward', 'TurnLeft', 'TurnRight']
         x, y = state.get_location()
@@ -432,8 +402,6 @@ class PlanRoute(Problem):
         return possible_actions
 
     def result(self, state, action):
-        """ Given state and act]ion, return a new state that is the result of the action.
-        Action is assumed to be a valid action in the state """
         x, y = state.get_location()
         proposed_loc = list()
 
